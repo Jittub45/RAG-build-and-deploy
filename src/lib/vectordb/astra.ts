@@ -210,3 +210,12 @@ export async function hasDocuments(): Promise<boolean> {
   const count = await getDocumentCount();
   return count > 0;
 }
+
+/**
+ * Clear all documents from the collection
+ */
+export async function clearCollection(): Promise<void> {
+  const coll = await getCollection();
+  await coll.deleteMany({});
+  console.log("Collection cleared");
+}

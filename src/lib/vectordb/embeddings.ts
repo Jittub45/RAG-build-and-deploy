@@ -38,8 +38,22 @@ export async function generateEmbeddings(
 
   // Process texts one by one (Gemini doesn't support batch embedding)
   for (let i = 0; i < texts.length; i++) {
-    const result = await model.embedContent(texts[i]);
-    allEmbeddings.push(result.embedding.values);
+    const text = texts[i]?.trim();
+    
+    // Skip empty texts - use a placeholder embedding
+    if (!text || text.length === 0) {
+      console.log(`  Skipping empty text at index ${i}`);
+      allEmbeddings.push(new Array(3072).fill(0));
+      continue;
+    }
+
+    try {
+      const result = await model.embedContent(text);
+      allEmbeddings.push(result.embedding.values);
+    } catch (error) {
+      console.log(`  Error embedding text ${i}: ${error}`);
+      allEmbeddings.push(new Array(3072).fill(0));
+    }
 
     // Rate limiting - small delay between requests
     if (i < texts.length - 1) {
@@ -61,10 +75,14 @@ export async function generateEmbeddings(
 export async function generateDocumentEmbeddings(
   documents: F1Document[]
 ): Promise<Array<{ document: F1Document; embedding: number[] }>> {
-  const texts = documents.map((doc) => doc.content);
+  // Filter out documents with empty content
+  const validDocuments = documents.filter((doc) => doc.content?.trim().length > 0);
+  console.log(`  Filtered ${documents.length - validDocuments.length} empty documents`);
+  
+  const texts = validDocuments.map((doc) => doc.content);
   const embeddings = await generateEmbeddings(texts);
 
-  return documents.map((doc, index) => ({
+  return validDocuments.map((doc, index) => ({
     document: doc,
     embedding: embeddings[index],
   }));

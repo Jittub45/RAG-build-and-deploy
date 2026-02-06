@@ -1,8 +1,8 @@
 import { DataAPIClient, Collection } from "@datastax/astra-db-ts";
 import { F1Document } from "@/types";
 
-// Embedding dimensions for Google text-embedding-004
-const EMBEDDING_DIMENSION = 768;
+// Embedding dimensions for gemini-embedding-001
+const EMBEDDING_DIMENSION = 3072;
 
 let client: DataAPIClient | null = null;
 let collection: Collection | null = null;
@@ -218,4 +218,33 @@ export async function clearCollection(): Promise<void> {
   const coll = await getCollection();
   await coll.deleteMany({});
   console.log("Collection cleared");
+}
+
+/**
+ * Drop and recreate the collection with correct dimensions
+ */
+export async function resetCollection(): Promise<void> {
+  const { endpoint, collectionName } = getCredentials();
+  const astraClient = await getAstraClient();
+  const db = astraClient.db(endpoint!);
+
+  // Drop existing collection
+  try {
+    await db.dropCollection(collectionName);
+    console.log(`Dropped collection: ${collectionName}`);
+  } catch (error) {
+    console.log(`Collection ${collectionName} does not exist, creating new one`);
+  }
+
+  // Reset cached collection
+  collection = null;
+
+  // Create new collection with correct dimensions
+  collection = await db.createCollection(collectionName, {
+    vector: {
+      dimension: EMBEDDING_DIMENSION,
+      metric: "cosine",
+    },
+  });
+  console.log(`Created collection: ${collectionName} with dimension ${EMBEDDING_DIMENSION}`);
 }

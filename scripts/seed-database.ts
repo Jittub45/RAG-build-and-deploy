@@ -15,7 +15,7 @@ config({ path: resolve(process.cwd(), '.env.local') });
 
 import { scrapeAllSources } from '../src/lib/scrapers';
 import { generateDocumentEmbeddings } from '../src/lib/vectordb/embeddings';
-import { insertDocuments, getDocumentCount, getCollection } from '../src/lib/vectordb/astra';
+import { insertDocuments, getDocumentCount, resetCollection } from '../src/lib/vectordb/astra';
 
 async function seed() {
   console.log('🏎️  F1 RAG Chatbot - Database Seeding\n');
@@ -34,10 +34,10 @@ async function seed() {
   }
 
   try {
-    // Initialize collection
-    console.log('\n📦 Initializing Astra DB collection...');
-    await getCollection();
-    console.log('✓ Collection ready\n');
+    // Reset collection to ensure correct dimensions
+    console.log('\n📦 Resetting Astra DB collection (ensuring correct dimensions)...');
+    await resetCollection();
+    console.log('✓ Collection reset and ready\n');
 
     // Scrape data
     console.log('🔍 Scraping F1 data from all sources...\n');

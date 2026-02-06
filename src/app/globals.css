@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f0f1a;
+  --foreground: #e5e5e5;
+  --primary: #00d4aa;
+  --primary-dark: #00b894;
+  --surface: #1a1a2e;
+  --surface-light: #252542;
+  --muted: #8b8b9e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* F1 Racing Background */
+.f1-background {
+  background: 
+    /* Racing grid pattern */
+    linear-gradient(90deg, transparent 49%, rgba(0, 212, 170, 0.03) 49%, rgba(0, 212, 170, 0.03) 51%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, rgba(0, 212, 170, 0.03) 49%, rgba(0, 212, 170, 0.03) 51%, transparent 51%),
+    /* Diagonal racing stripes */
+    repeating-linear-gradient(
+      135deg,
+      transparent,
+      transparent 100px,
+      rgba(0, 212, 170, 0.02) 100px,
+      rgba(0, 212, 170, 0.02) 200px
+    ),
+    /* Gradient overlay */
+    radial-gradient(ellipse at top, #1a1a2e 0%, #0f0f1a 70%),
+    /* Base */
+    #0f0f1a;
+  background-size: 60px 60px, 60px 60px, 400px 400px, 100% 100%, 100% 100%;
+}
+
+/* Checkered flag accent */
+.checkered-accent {
+  background-image: 
+    linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.03) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.03) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 0, 10px -10px, 0px 10px;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+}
+
+/* Typography for markdown */
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+

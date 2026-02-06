@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: f1-rag-chatbot
+    runtime: node
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GOOGLE_GENERATIVE_AI_API_KEY
+        sync: false
+      - key: ASTRA_DB_APPLICATION_TOKEN
+        sync: false
+      - key: ASTRA_DB_API_ENDPOINT
+        sync: false
+      - key: ASTRA_DB_COLLECTION
+        value: f1_documents

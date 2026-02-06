@@ -1,6 +1,10 @@
-# 🏎️ F1 RAG Chatbot
+# 🏎️ PitLane AI - F1 RAG Chatbot
 
 A RAG-powered Formula 1 conversational AI chatbot built with **LangChain.js**, **Next.js**, **DataStax Astra DB**, and the **Vercel AI SDK**.
+
+## 🚀 Live Demo
+
+**[https://pitlane-ai-professional-memorable.onrender.com/](https://pitlane-ai-professional-memorable.onrender.com/)**
 
 ![F1 Chat Interface](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
